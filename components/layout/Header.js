@@ -7,7 +7,6 @@ const Header = () => {
 			<div>
 				<div>
 					<p>P</p>
-
 					<Search />
 					{/* Nav */}
 				</div>
