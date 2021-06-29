@@ -1,10 +1,10 @@
 import Layout from '../components/layout/Layout';
 
-export default function Home() {
+export default function NewProduct() {
 	return (
 		<div>
 			<Layout>
-				<h1>Index</h1>
+				<h1>New Product</h1>
 			</Layout>
 		</div>
 	);

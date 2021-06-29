@@ -66,16 +66,17 @@ const Header = () => {
 							>
 								Hola: Jose
 							</p>
+
 							<Button bgColor="true">Log Out </Button>
 						</>
 					) : (
 						<>
-							<Link href="/">
+							<Link href="/login">
 								<Button bgColor="true">Login</Button>
 							</Link>
 
-							<Link href="/">
-								<Button>Register</Button>
+							<Link href="/create-account">
+								<Button>Create Account</Button>
 							</Link>
 						</>
 					)}

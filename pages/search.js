@@ -1,10 +1,10 @@
 import Layout from '../components/layout/Layout';
 
-export default function Home() {
+export default function Search() {
 	return (
 		<div>
 			<Layout>
-				<h1>Index</h1>
+				<h1>Search</h1>
 			</Layout>
 		</div>
 	);
