@@ -6,10 +6,9 @@ import useAuth from '../hooks/useAuth';
 // This default export is required in a new `pages/_app.js` file.
 export default function MyApp({ Component, pageProps }) {
 	const user = useAuth();
-	console.log(user);
 
 	return (
-		<FirebaseContext.Provider value={{ firebase }}>
+		<FirebaseContext.Provider value={{ firebase, user }}>
 			<Component {...pageProps} />
 		</FirebaseContext.Provider>
 	);
