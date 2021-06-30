@@ -32,7 +32,7 @@ export default function CreateAccount() {
 			await firebase.register(name, email, password);
 			Router.push('/');
 		} catch (error) {
-			console.log('Something is wrong ', error.message);
+			console.log('Create Account: Something is wrong ', error.message);
 			setError(error.message);
 		}
 	}

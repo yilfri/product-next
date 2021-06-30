@@ -21,13 +21,19 @@ export default function Login() {
 	const { value, errors, handleChange, handleSubmit, handleBlur } = useValidation(
 		INITIAL_STATE,
 		validateLogIn,
-		logIn
+		login
 	);
 
 	const { email, password } = value;
 
-	function logIn() {
-		console.log('Login...');
+	async function login() {
+		try {
+			await firebase.login(email, password);
+			Router.push('/');
+		} catch (error) {
+			console.log('Login: Something is wrong ', error.message);
+			setError(error.message);
+		}
 	}
 
 	return (
