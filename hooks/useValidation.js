@@ -14,7 +14,7 @@ const useValidation = (initialState, validate, fn) => {
 			}
 			setSubmitForm(false);
 		}
-	}, []);
+	}, [errors]);
 
 	// Handle Events - When user write in form.
 	const handleChange = (e) => {
@@ -29,7 +29,13 @@ const useValidation = (initialState, validate, fn) => {
 		e.preventDefault();
 		const errorsValidation = validate(value);
 		setErrors(errorsValidation);
-		setSubmitForm = true;
+		setSubmitForm(true);
+	};
+
+	// handle Events - When user focus in input.
+	const handleBlur = () => {
+		const errorsValidation = validate(value);
+		setErrors(errorsValidation);
 	};
 
 	return {
@@ -37,7 +43,8 @@ const useValidation = (initialState, validate, fn) => {
 		errors,
 		submitForm,
 		handleChange,
-		handleSubmit
+		handleSubmit,
+		handleBlur
 	};
 };
 
