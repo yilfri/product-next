@@ -53,6 +53,23 @@ const Product = () => {
 
 	const { comments, company, creator, creation, description, name, url, urlImg, votes } = product;
 
+	const handleVotes = () => {
+		if (!user) {
+			router.push('/login');
+		}
+		// Get and add new vote
+		const newTotal = votes + 1;
+
+		// Update DB.
+		firebase.db.collection('products').doc(id).update({ votes: newTotal });
+
+		// Update State
+		setProduct({
+			...product,
+			votes: newTotal
+		});
+	};
+
 	return (
 		<>
 			<Layout>
@@ -123,7 +140,7 @@ const Product = () => {
 									{votes} Votes
 								</p>
 
-								<Button>Vote</Button>
+								<Button onClick={handleVotes}>Vote</Button>
 							</div>
 						</aside>
 					</ProductContainer>
