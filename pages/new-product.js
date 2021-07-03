@@ -62,9 +62,9 @@ export default function NewProduct() {
 		};
 
 		// Add product to DB.
-		firebase.db.collection('products').add(product);
+		await firebase.db.collection('products').add(product);
 
-		/* return router.push('/'); */
+		return router.push('/');
 	}
 
 	const handleUploadStart = () => {
@@ -141,6 +141,21 @@ export default function NewProduct() {
 							{errors.company && <Error>{errors.company}</Error>}
 
 							<Field>
+								<label htmlFor="image">Image</label>
+								<FileUploader
+									accept="image/*"
+									name="image"
+									id="image"
+									randomizerFilename
+									storageRef={firebase.storage.ref('products')}
+									onUploadStart={handleUploadStart}
+									onUploadError={handleUploadError}
+									onUploadSuccess={handleUploadSuccess}
+									onProgress={handleProgress}
+								/>
+							</Field>
+
+							<Field>
 								<label htmlFor="url">URL</label>
 								<input
 									type="url"
@@ -155,21 +170,6 @@ export default function NewProduct() {
 							</Field>
 
 							{errors.url && <Error>{errors.url}</Error>}
-
-							<Field>
-								<label htmlFor="image">Image</label>
-								<FileUploader
-									accept="image/*"
-									name="image"
-									id="image"
-									randomizerFilename
-									storageRef={firebase.storage.ref('products')}
-									onUploadStart={handleUploadStart}
-									onUploadError={handleUploadError}
-									onUploadSuccess={handleUploadSuccess}
-									onProgress={handleProgress}
-								/>
-							</Field>
 						</fieldset>
 
 						<fieldset>
