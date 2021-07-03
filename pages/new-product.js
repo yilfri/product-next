@@ -58,7 +58,11 @@ export default function NewProduct() {
 			description,
 			votes: 0,
 			comments: [],
-			creation: Date.now()
+			creation: Date.now(),
+			creator: {
+				id: user.uid,
+				name: user.displayName
+			}
 		};
 
 		// Add product to DB.
@@ -146,7 +150,7 @@ export default function NewProduct() {
 									accept="image/*"
 									name="image"
 									id="image"
-									randomizerFilename
+									randomizerfilename="true"
 									storageRef={firebase.storage.ref('products')}
 									onUploadStart={handleUploadStart}
 									onUploadError={handleUploadError}
