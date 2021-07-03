@@ -70,6 +70,7 @@ const Votes = styled.div`
 
 	div {
 		font-size: 2rem;
+		max-height: 100px;
 	}
 
 	p {
@@ -86,7 +87,7 @@ const ProductDetails = ({ product }) => {
 		<Product>
 			<ProductDescription>
 				<div>
-					<Image src={urlImg} alt={name} width={300} height={300} objectFit="cover" />
+					<Image src={urlImg} alt={name} width={300} height={300} objectFit="container" />
 				</div>
 				<div>
 					<Link href="/products/[id]" as={`/products/${id}`} passHref>

@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/dist/client/router';
+import Image from 'next/image';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { FirebaseContext } from '../../firebase';
 import Layout from '../../components/layout/Layout';
 import Error404 from '../../components/layout/404';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { object } from 'prop-types';
+import { Field, InputSubmit } from '../../components/ui/Form';
 
 const ProductContainer = styled.div`
 	@media (min-width: 768px) {
@@ -65,7 +67,37 @@ const Product = () => {
 					</h1>
 
 					<ProductContainer>
-						<div>1</div>
+						<div>
+							<p>Published {formatDistanceToNow(new Date(creation))} ago</p>
+
+							<Image src={urlImg} alt={name} width={100} height={100} layout="responsive" />
+
+							<p>{description}</p>
+
+							<h2>Leave a Comment!</h2>
+							<form>
+								<Field>
+									<input type="text" name="comment" />
+								</Field>
+
+								<InputSubmit type="submit" value="Add Comment" />
+							</form>
+
+							<h2
+								ccs={css`
+									margin: 2rem 0;
+								`}
+							>
+								Comments
+							</h2>
+
+							{comments.map((comment) => (
+								<li key={asd}>
+									<p>{comment.name}</p>
+									<p>Write by: {comment.userName}</p>
+								</li>
+							))}
+						</div>
 
 						<aside>2</aside>
 					</ProductContainer>
