@@ -8,6 +8,7 @@ import Error404 from '../../components/layout/404';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Field, InputSubmit } from '../../components/ui/Form';
+import Button from '../../components/ui/Button';
 
 const ProductContainer = styled.div`
 	@media (min-width: 768px) {
@@ -99,7 +100,27 @@ const Product = () => {
 							))}
 						</div>
 
-						<aside>2</aside>
+						<aside>
+							<Button target="_blank" bgColor="true" href={url}>
+								Visit Website
+							</Button>
+
+							<div
+								ccs={css`
+									margin-top: 5rem;
+								`}
+							>
+								<p
+									css={css`
+										text-align: center;
+									`}
+								>
+									{votes} Votes
+								</p>
+
+								<Button>Vote</Button>
+							</div>
+						</aside>
 					</ProductContainer>
 				</div>
 			</Layout>
