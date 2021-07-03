@@ -3,6 +3,17 @@ import { useRouter } from 'next/dist/client/router';
 import { FirebaseContext } from '../../firebase';
 import Layout from '../../components/layout/Layout';
 import Error404 from '../../components/layout/404';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { object } from 'prop-types';
+
+const ProductContainer = styled.div`
+	@media (min-width: 768px) {
+		display: grid;
+		grid-template-columns: 2fr 1fr;
+		column-gap: 2rem;
+	}
+`;
 
 const Product = () => {
 	// State
@@ -11,8 +22,6 @@ const Product = () => {
 
 	// Context.
 	const { firebase } = useContext(FirebaseContext);
-
-	const { name } = product;
 
 	// Routing.
 	const router = useRouter();
@@ -37,11 +46,30 @@ const Product = () => {
 		}
 	}, [id]);
 
+	if (Object.keys(product).length === 0) return <p>Cargando...</p>;
+
+	const { comments, company, creation, description, name, url, urlImg, votes } = product;
+
 	return (
 		<>
 			<Layout>
-				<h1>{name}</h1>
 				{error && <Error404 />}
+				<div className="contenedor">
+					<h1
+						css={css`
+							text-align: center;
+							margin-top: 5rem;
+						`}
+					>
+						{name}
+					</h1>
+
+					<ProductContainer>
+						<div>1</div>
+
+						<aside>2</aside>
+					</ProductContainer>
+				</div>
 			</Layout>
 		</>
 	);
