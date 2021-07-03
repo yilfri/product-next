@@ -10,6 +10,7 @@ import { FirebaseContext } from '../firebase';
 // Validations.
 import useValidation from '../hooks/useValidation';
 import validateNewProduct from '../validation/validateNewProduct';
+import Error404 from '../components/layout/404';
 
 const INITIAL_STATE = {
 	name: '',
@@ -100,106 +101,110 @@ export default function NewProduct() {
 	return (
 		<div>
 			<Layout>
-				<>
-					<h1
-						css={css`
-							text-align: center;
-							margin-top: 5rem;
-						`}
-					>
-						New Product
-					</h1>
-					<Form onSubmit={handleSubmit}>
-						<fieldset>
-							<legend>General Information</legend>
-							<Field>
-								<label htmlFor="name">Name</label>
-								<input
-									type="text"
-									name="name"
-									id="name"
-									placeholder="Your Product Name"
-									autoComplete="off"
-									value={name}
-									onChange={handleChange}
-									onBlur={handleBlur}
-								/>
-							</Field>
+				{!user ? (
+					<Error404 />
+				) : (
+					<>
+						<h1
+							css={css`
+								text-align: center;
+								margin-top: 5rem;
+							`}
+						>
+							New Product
+						</h1>
+						<Form onSubmit={handleSubmit}>
+							<fieldset>
+								<legend>General Information</legend>
+								<Field>
+									<label htmlFor="name">Name</label>
+									<input
+										type="text"
+										name="name"
+										id="name"
+										placeholder="Your Product Name"
+										autoComplete="off"
+										value={name}
+										onChange={handleChange}
+										onBlur={handleBlur}
+									/>
+								</Field>
 
-							{errors.name && <Error>{errors.name}</Error>}
+								{errors.name && <Error>{errors.name}</Error>}
 
-							<Field>
-								<label htmlFor="company">Company</label>
-								<input
-									type="text"
-									name="company"
-									id="company"
-									placeholder="Your Company Name"
-									autoComplete="off"
-									value={company}
-									onChange={handleChange}
-									onBlur={handleBlur}
-								/>
-							</Field>
+								<Field>
+									<label htmlFor="company">Company</label>
+									<input
+										type="text"
+										name="company"
+										id="company"
+										placeholder="Your Company Name"
+										autoComplete="off"
+										value={company}
+										onChange={handleChange}
+										onBlur={handleBlur}
+									/>
+								</Field>
 
-							{errors.company && <Error>{errors.company}</Error>}
+								{errors.company && <Error>{errors.company}</Error>}
 
-							<Field>
-								<label htmlFor="image">Image</label>
-								<FileUploader
-									accept="image/*"
-									name="image"
-									id="image"
-									randomizerfilename="true"
-									storageRef={firebase.storage.ref('products')}
-									onUploadStart={handleUploadStart}
-									onUploadError={handleUploadError}
-									onUploadSuccess={handleUploadSuccess}
-									onProgress={handleProgress}
-								/>
-							</Field>
+								<Field>
+									<label htmlFor="image">Image</label>
+									<FileUploader
+										accept="image/*"
+										name="image"
+										id="image"
+										randomizerfilename="true"
+										storageRef={firebase.storage.ref('products')}
+										onUploadStart={handleUploadStart}
+										onUploadError={handleUploadError}
+										onUploadSuccess={handleUploadSuccess}
+										onProgress={handleProgress}
+									/>
+								</Field>
 
-							<Field>
-								<label htmlFor="url">URL</label>
-								<input
-									type="url"
-									name="url"
-									id="url"
-									placeholder="Your Company URL (with http or https)"
-									autoComplete="off"
-									value={url}
-									onChange={handleChange}
-									onBlur={handleBlur}
-								/>
-							</Field>
+								<Field>
+									<label htmlFor="url">URL</label>
+									<input
+										type="url"
+										name="url"
+										id="url"
+										placeholder="Your Company URL (with http or https)"
+										autoComplete="off"
+										value={url}
+										onChange={handleChange}
+										onBlur={handleBlur}
+									/>
+								</Field>
 
-							{errors.url && <Error>{errors.url}</Error>}
-						</fieldset>
+								{errors.url && <Error>{errors.url}</Error>}
+							</fieldset>
 
-						<fieldset>
-							<legend>About your Product</legend>
+							<fieldset>
+								<legend>About your Product</legend>
 
-							<Field>
-								<label htmlFor="name">Description</label>
-								<textarea
-									type="description"
-									name="description"
-									id="description"
-									placeholder="Tell us about your company"
-									autoComplete="off"
-									value={description}
-									onChange={handleChange}
-									onBlur={handleBlur}
-								/>
-							</Field>
+								<Field>
+									<label htmlFor="name">Description</label>
+									<textarea
+										type="description"
+										name="description"
+										id="description"
+										placeholder="Tell us about your company"
+										autoComplete="off"
+										value={description}
+										onChange={handleChange}
+										onBlur={handleBlur}
+									/>
+								</Field>
 
-							{errors.description && <Error>{errors.description}</Error>}
-						</fieldset>
+								{errors.description && <Error>{errors.description}</Error>}
+							</fieldset>
 
-						{error && <Error>{error}</Error>}
-						<InputSubmit type="submit" value="Create Account" />
-					</Form>
-				</>
+							{error && <Error>{error}</Error>}
+							<InputSubmit type="submit" value="Create Account" />
+						</Form>
+					</>
+				)}
 			</Layout>
 		</div>
 	);

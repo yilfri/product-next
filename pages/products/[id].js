@@ -24,7 +24,7 @@ const Product = () => {
 	const [error, setError] = useState(false);
 
 	// Context.
-	const { firebase } = useContext(FirebaseContext);
+	const { firebase, user } = useContext(FirebaseContext);
 
 	// Routing.
 	const router = useRouter();
@@ -77,15 +77,18 @@ const Product = () => {
 
 							<p>{description}</p>
 
-							<h2>Leave a Comment!</h2>
-							<form>
-								<Field>
-									<input type="text" name="comment" />
-								</Field>
+							{user && (
+								<>
+									<h2>Leave a Comment!</h2>
+									<form>
+										<Field>
+											<input type="text" name="comment" />
+										</Field>
 
-								<InputSubmit type="submit" value="Add Comment" />
-							</form>
-
+										<InputSubmit type="submit" value="Add Comment" />
+									</form>
+								</>
+							)}
 							<h2
 								ccs={css`
 									margin: 2rem 0;
