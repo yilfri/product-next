@@ -3,7 +3,7 @@ import Layout from '../components/layout/Layout';
 import ProductDetails from '../components/layout/ProductDetails';
 import { FirebaseContext } from '../firebase';
 
-export default function Home() {
+const Home = () => {
 	const [products, setProducts] = useState([]);
 
 	// Import context
@@ -35,13 +35,15 @@ export default function Home() {
 				<div className="listado-productos">
 					<div className="contenedor">
 						<ul className="bg-white">
-							{products.map((product) => {
-								<ProductDetails key={product.id} product={product} />;
-							})}
+							{products.map((product) => (
+								<ProductDetails key={product.id} product={product} />
+							))}
 						</ul>
 					</div>
 				</div>
 			</Layout>
 		</div>
 	);
-}
+};
+
+export default Home;

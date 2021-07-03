@@ -1,12 +1,19 @@
 import React from 'react';
 
 const ProductDetails = ({ product }) => {
-	console.log(product);
+	const { comments, company, creation, description, id, name, url, urlImg, votes } = product;
 
 	return (
-		<div>
-			<h1>product</h1>
-		</div>
+		<li>
+			<div>
+				<div></div>
+				<div>
+					<h1>{name}</h1>
+				</div>
+			</div>
+
+			<div></div>
+		</li>
 	);
 };
 
