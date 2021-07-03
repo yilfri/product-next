@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 const Product = styled.li`
@@ -87,7 +88,9 @@ const ProductDetails = ({ product }) => {
 					<Image src={urlImg} alt={name} width={300} height={300} objectFit="cover" />
 				</div>
 				<div>
-					<Title>{name}</Title>
+					<Link href="/products/[id]" as={`/products/${id}`}>
+						<Title>{name}</Title>
+					</Link>
 					<TextDescription>{description}</TextDescription>
 
 					<Comments>
