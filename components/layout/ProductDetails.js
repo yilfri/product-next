@@ -23,6 +23,7 @@ const Title = styled.a`
 	font-size: 2.5rem;
 	font-weight: bold;
 	margin: 0;
+	color: #000;
 
 	:hover {
 		cursor: pointer;
@@ -88,7 +89,7 @@ const ProductDetails = ({ product }) => {
 					<Image src={urlImg} alt={name} width={300} height={300} objectFit="cover" />
 				</div>
 				<div>
-					<Link href="/products/[id]" as={`/products/${id}`}>
+					<Link href="/products/[id]" as={`/products/${id}`} passHref>
 						<Title>{name}</Title>
 					</Link>
 					<TextDescription>{description}</TextDescription>
