@@ -34,6 +34,8 @@ const TextDescription = styled.p`
 	font-size: 1.6rem;
 	margin: 1rem 0;
 	color: #888;
+	max-height: 70px;
+	overflow: hidden;
 `;
 
 const Comments = styled.div`

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/dist/client/router';
 import Search from '../ui/Search';
 import Navegation from './Navegation';
 import styled from '@emotion/styled';
@@ -29,6 +30,12 @@ const Logo = styled.a`
 const Header = () => {
 	const { user, firebase } = useContext(FirebaseContext);
 
+	const router = useRouter();
+
+	const handleLogOut = () => {
+		firebase.logout();
+		router.push('/');
+	};
 	return (
 		<header
 			css={css`
@@ -68,17 +75,17 @@ const Header = () => {
 								Hola {user.displayName}
 							</p>
 
-							<Button bgColor="true" onClick={() => firebase.logout()}>
+							<Button bgColor="true" onClick={handleLogOut}>
 								Log Out{' '}
 							</Button>
 						</>
 					) : (
 						<>
-							<Link href="/login">
+							<Link href="/login" passHref>
 								<Button bgColor="true">Login</Button>
 							</Link>
 
-							<Link href="/create-account">
+							<Link href="/create-account" passHref>
 								<Button>Create Account</Button>
 							</Link>
 						</>

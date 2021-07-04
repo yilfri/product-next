@@ -32,7 +32,6 @@ const CommentsSection = styled.section`
 	margin-bottom: 2rem;
 	display: flex;
 	flex-direction: column;
-	/* 	max-width: 500px; */
 `;
 
 const Product = () => {
@@ -65,7 +64,7 @@ const Product = () => {
 					setConsultDB(false);
 				}
 			};
-
+			console.log('cuidado');
 			getProduct();
 		}
 	}, [id]);
@@ -160,7 +159,9 @@ const Product = () => {
 	const canDelete = () => {
 		if (!user) return false;
 
-		if (creator.id === user.uid) return true;
+		if (creator.id === user.uid) {
+			return true;
+		}
 	};
 
 	//  Handle Event - Delete product.
@@ -250,7 +251,7 @@ const Product = () => {
 															{` ${comment.userName}`}
 														</span>
 													</p>
-													{isCreator && <ProductCreator>Creador</ProductCreator>}
+													{isCreator(comment.userId) && <ProductCreator>Creador</ProductCreator>}
 												</article>
 											</CommentsSection>
 										))}
@@ -280,7 +281,8 @@ const Product = () => {
 								</div>
 							</aside>
 						</ProductContainer>
-						{canDelete && <Button onClick={handleClickDelete}>Delete Product</Button>}
+
+						{canDelete() && <Button onClick={handleClickDelete}>Delete Product</Button>}
 					</div>
 				)}
 			</Layout>

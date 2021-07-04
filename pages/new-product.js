@@ -202,7 +202,7 @@ export default function NewProduct() {
 							</fieldset>
 
 							{error && <Error>{error}</Error>}
-							<InputSubmit type="submit" value="Create Account" />
+							<InputSubmit type="submit" value="Create Product" />
 						</Form>
 					</>
 				)}
