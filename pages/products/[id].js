@@ -20,8 +20,9 @@ const ProductContainer = styled.div`
 
 const Product = () => {
 	// State
-	const [product, setProduct] = useState([]);
+	const [product, setProduct] = useState({});
 	const [error, setError] = useState(false);
+	const [comment, setComment] = useState({});
 
 	// Context.
 	const { firebase, user } = useContext(FirebaseContext);
@@ -87,6 +88,41 @@ const Product = () => {
 		});
 	};
 
+	// Comments.
+	const handleComment = (e) => {
+		setComment({
+			...comment,
+			[e.target.name]: e.target.value
+		});
+	};
+
+	const handleSendComment = (e) => {
+		e.preventDefault();
+
+		// Prevent comment from users no logged.
+		if (!user) {
+			router.push('/login');
+		}
+
+		// Set comment information extra.
+		comment.userId = user.uid;
+		comment.userName = user.displayName;
+
+		// Copy new comment.
+		const newComments = [...comments, comment];
+
+		// Update DB.
+		firebase.db.collection('products').doc(id).update({
+			comments: newComments
+		});
+
+		// Update State.
+		setProduct({
+			...product,
+			comments: newComments
+		});
+	};
+
 	return (
 		<>
 			<Layout>
@@ -114,9 +150,9 @@ const Product = () => {
 							{user && (
 								<>
 									<h2>Leave a Comment!</h2>
-									<form>
+									<form onSubmit={handleSendComment}>
 										<Field>
-											<input type="text" name="comment" />
+											<input type="text" name="message" onChange={handleComment} />
 										</Field>
 
 										<InputSubmit type="submit" value="Add Comment" />
@@ -131,12 +167,34 @@ const Product = () => {
 								Comments
 							</h2>
 
-							{comments.map((comment) => (
-								<li key={asd}>
-									<p>{comment.name}</p>
-									<p>Write by: {comment.userName}</p>
-								</li>
-							))}
+							{comments.length === 0 ? (
+								'No comments yet'
+							) : (
+								<ul>
+									{comments.map((comment, i) => (
+										<li
+											key={`${comment.userId}-${id}`}
+											css={css`
+												border: 1px solid #e1e1e1;
+												padding: 2rem;
+												margin-bottom: 2rem;
+											`}
+										>
+											<p>{comment.message}</p>
+											<p>
+												Write by:
+												<span
+													css={css`
+														font-weight: bold;
+													`}
+												>
+													{` ${comment.userName}`}
+												</span>
+											</p>
+										</li>
+									))}
+								</ul>
+							)}
 						</div>
 
 						<aside>
