@@ -13,7 +13,7 @@ const ButtonSubmit = styled.button`
 	width: 3rem;
 	display: block;
 	background-size: 4rem;
-	background-image: url('images/find.svg');
+	background-image: url('/images/find.svg');
 	background-repeat: no-repeat;
 	position: absolute;
 	right: 1rem;

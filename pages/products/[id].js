@@ -27,12 +27,18 @@ const ProductCreator = styled.p`
 `;
 
 const CommentsSection = styled.section`
-	max-width: 500px;
+	border: 1px solid #e1e1e1;
+	padding: 2rem;
+	margin-bottom: 2rem;
+	display: flex;
+	flex-direction: column;
+	/* 	max-width: 500px; */
 `;
 
 const Product = () => {
 	// State
 	const [product, setProduct] = useState({});
+	const [consultDB, setConsultDB] = useState(true);
 	const [error, setError] = useState(false);
 	const [comment, setComment] = useState({});
 
@@ -46,23 +52,25 @@ const Product = () => {
 	} = router;
 
 	useEffect(() => {
-		if (id) {
+		if (id && consultDB) {
 			const getProduct = async () => {
 				const productQuery = await firebase.db.collection('products').doc(id);
 				const product = await productQuery.get();
 
 				if (product.exists) {
 					setProduct(product.data());
+					setConsultDB(false);
 				} else {
 					setError(true);
+					setConsultDB(false);
 				}
 			};
 
 			getProduct();
 		}
-	}, [id, product]);
+	}, [id]);
 
-	if (Object.keys(product).length === 0) return <p>Cargando...</p>;
+	if (Object.keys(product).length === 0 && !error) return <p>Cargando...</p>;
 
 	const {
 		comments,
@@ -98,6 +106,9 @@ const Product = () => {
 			...product,
 			votes: newTotal
 		});
+
+		// Consulting for new vote DB.
+		setConsultDB(true);
 	};
 
 	// Comments.
@@ -137,47 +148,52 @@ const Product = () => {
 			...product,
 			comments: newComments
 		});
+
+		// Consulting for new comment DB.
+		setConsultDB(true);
 	};
 
 	return (
 		<>
 			<Layout>
-				{error && <Error404 />}
-				<div className="contenedor">
-					<h1
-						css={css`
-							text-align: center;
-							margin-top: 5rem;
-						`}
-					>
-						{name}
-					</h1>
+				{error ? (
+					<Error404 />
+				) : (
+					<div className="contenedor">
+						<h1
+							css={css`
+								text-align: center;
+								margin-top: 5rem;
+							`}
+						>
+							{name}
+						</h1>
 
-					<ProductContainer>
-						<div>
-							<p>Published {formatDistanceToNow(new Date(creation))} ago</p>
-							<p>
-								By {creator.name} from {company}
-							</p>
-							<Image src={urlImg} alt={name} width={100} height={100} layout="responsive" />
+						<ProductContainer>
+							<div>
+								<p>Published {formatDistanceToNow(new Date(creation))} ago</p>
+								<p>
+									By {creator.name} from {company}
+								</p>
+								<Image src={urlImg} alt={name} width={100} height={100} layout="responsive" />
 
-							<p>{description}</p>
+								<p>{description}</p>
 
-							{user && (
-								<>
-									<h2>Leave a Comment!</h2>
-									<form onSubmit={handleSendComment}>
-										<Field>
-											<input type="text" name="message" onChange={handleComment} />
-										</Field>
+								{user && (
+									<>
+										<h2>Leave a Comment!</h2>
+										<form onSubmit={handleSendComment}>
+											<Field>
+												<input type="text" name="message" onChange={handleComment} />
+											</Field>
 
-										<InputSubmit type="submit" value="Add Comment" />
-									</form>
-								</>
-							)}
-							<CommentsSection>
+											<InputSubmit type="submit" value="Add Comment" />
+										</form>
+									</>
+								)}
+
 								<h2
-									ccs={css`
+									css={css`
 										margin: 2rem 0;
 									`}
 								>
@@ -189,56 +205,55 @@ const Product = () => {
 								) : (
 									<ul>
 										{comments.map((comment, i) => (
-											<li
-												key={`${comment.userId}-${i}`}
-												css={css`
-													border: 1px solid #e1e1e1;
-													padding: 2rem;
-													margin-bottom: 2rem;
-												`}
-											>
-												<p>{comment.message}</p>
-												<p>
-													Write by:
-													<span
-														css={css`
-															font-weight: bold;
-														`}
-													>
-														{` ${comment.userName}`}
-													</span>
-												</p>
-												{isCreator && <ProductCreator>Creador</ProductCreator>}
-											</li>
+											<CommentsSection key={`${comment.userId}-${i}`}>
+												<article
+													css={css`
+														word-break: break-all;
+													`}
+												>
+													<p>{comment.message}</p>
+													<p>
+														Write by:
+														<span
+															css={css`
+																font-weight: bold;
+															`}
+														>
+															{` ${comment.userName}`}
+														</span>
+													</p>
+													{isCreator && <ProductCreator>Creador</ProductCreator>}
+												</article>
+											</CommentsSection>
 										))}
 									</ul>
 								)}
-							</CommentsSection>
-						</div>
+							</div>
 
-						<aside>
-							<Button target="_blank" bgColor="true" href={url}>
-								Visit Website
-							</Button>
+							<aside>
+								<Button target="_blank" bgColor="true" href={url}>
+									Visit Website
+								</Button>
 
-							<div
-								ccs={css`
-									margin-top: 5rem;
-								`}
-							>
-								<p
-									css={css`
-										text-align: center;
+								<div
+									ccs={css`
+										margin-top: 5rem;
 									`}
 								>
-									{votes} Votes
-								</p>
+									<p
+										css={css`
+											text-align: center;
+										`}
+									>
+										{votes} Votes
+									</p>
 
-								<Button onClick={handleVotes}>Vote</Button>
-							</div>
-						</aside>
-					</ProductContainer>
-				</div>
+									<Button onClick={handleVotes}>Vote</Button>
+								</div>
+							</aside>
+						</ProductContainer>
+					</div>
+				)}
 			</Layout>
 		</>
 	);

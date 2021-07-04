@@ -17,7 +17,7 @@ const HeaderContainer = styled.div`
 	}
 `;
 
-const Logo = styled.p`
+const Logo = styled.a`
 	color: var(--orange);
 	font-size: 4rem;
 	line-height: 0;
@@ -43,7 +43,7 @@ const Header = () => {
 						align-items: center;
 					`}
 				>
-					<Link href="/">
+					<Link href="/" passHref>
 						<Logo>P</Logo>
 					</Link>
 
