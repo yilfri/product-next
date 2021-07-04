@@ -85,6 +85,7 @@ const Product = () => {
 		voteInProduct
 	} = product;
 
+	//  Handle Event - Send Votes
 	const handleVotes = () => {
 		if (!user) {
 			router.push('/login');
@@ -119,10 +120,12 @@ const Product = () => {
 		});
 	};
 
+	//  Check if actual user is creator product same.
 	const isCreator = (id) => {
 		if (creator.id === id) return true;
 	};
 
+	//  Handle Event - Send comments.
 	const handleSendComment = (e) => {
 		e.preventDefault();
 
@@ -151,6 +154,31 @@ const Product = () => {
 
 		// Consulting for new comment DB.
 		setConsultDB(true);
+	};
+
+	// Check if actual user can delete product.
+	const canDelete = () => {
+		if (!user) return false;
+
+		if (creator.id === user.uid) return true;
+	};
+
+	//  Handle Event - Delete product.
+	const handleClickDelete = async () => {
+		if (!user) {
+			return router.push('/login');
+		}
+
+		if (creator.id !== user.uid) {
+			return router.push('/');
+		}
+
+		try {
+			firebase.db.collection('products').doc(id).delete();
+			router.push('/');
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
@@ -252,6 +280,7 @@ const Product = () => {
 								</div>
 							</aside>
 						</ProductContainer>
+						{canDelete && <Button onClick={handleClickDelete}>Delete Product</Button>}
 					</div>
 				)}
 			</Layout>
