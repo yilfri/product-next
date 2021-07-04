@@ -18,6 +18,18 @@ const ProductContainer = styled.div`
 	}
 `;
 
+const ProductCreator = styled.p`
+	color: #da552f;
+	font-weight: bold;
+	display: block;
+	position: relative;
+	text-align: right;
+`;
+
+const CommentsSection = styled.section`
+	max-width: 500px;
+`;
+
 const Product = () => {
 	// State
 	const [product, setProduct] = useState({});
@@ -96,6 +108,10 @@ const Product = () => {
 		});
 	};
 
+	const isCreator = (id) => {
+		if (creator.id === id) return true;
+	};
+
 	const handleSendComment = (e) => {
 		e.preventDefault();
 
@@ -159,42 +175,45 @@ const Product = () => {
 									</form>
 								</>
 							)}
-							<h2
-								ccs={css`
-									margin: 2rem 0;
-								`}
-							>
-								Comments
-							</h2>
+							<CommentsSection>
+								<h2
+									ccs={css`
+										margin: 2rem 0;
+									`}
+								>
+									Comments
+								</h2>
 
-							{comments.length === 0 ? (
-								'No comments yet'
-							) : (
-								<ul>
-									{comments.map((comment, i) => (
-										<li
-											key={`${comment.userId}-${id}`}
-											css={css`
-												border: 1px solid #e1e1e1;
-												padding: 2rem;
-												margin-bottom: 2rem;
-											`}
-										>
-											<p>{comment.message}</p>
-											<p>
-												Write by:
-												<span
-													css={css`
-														font-weight: bold;
-													`}
-												>
-													{` ${comment.userName}`}
-												</span>
-											</p>
-										</li>
-									))}
-								</ul>
-							)}
+								{comments.length === 0 ? (
+									'No comments yet'
+								) : (
+									<ul>
+										{comments.map((comment, i) => (
+											<li
+												key={`${comment.userId}-${i}`}
+												css={css`
+													border: 1px solid #e1e1e1;
+													padding: 2rem;
+													margin-bottom: 2rem;
+												`}
+											>
+												<p>{comment.message}</p>
+												<p>
+													Write by:
+													<span
+														css={css`
+															font-weight: bold;
+														`}
+													>
+														{` ${comment.userName}`}
+													</span>
+												</p>
+												{isCreator && <ProductCreator>Creador</ProductCreator>}
+											</li>
+										))}
+									</ul>
+								)}
+							</CommentsSection>
 						</div>
 
 						<aside>
